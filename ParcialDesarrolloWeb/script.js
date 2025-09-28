@@ -1,5 +1,6 @@
 // Configuración de la API
 const API_BASE_URL = 'http://localhost:5194/api';
+//const API_BASE_URL = window.location.origin + '/api';
 let estudiantes = [];
 let carreras = [];
 let facultades = [];

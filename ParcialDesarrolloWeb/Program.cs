@@ -1,55 +1,60 @@
 using Microsoft.EntityFrameworkCore;
 using ParcialDesarrolloWeb.Data;
 
-namespace ParcialDesarrolloWeb
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 
-            // Configuración de la base de datos
-            var connectionString = builder.Configuration.GetConnectionString("CadenaSQL");
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString)
-            );
 
-            // Configuración de CORS
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
+builder.Services.AddEndpointsApiExplorer();
 
-            // Configuración JSON para evitar ciclos
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            });
 
-            builder.Services.AddOpenApi();
+// Conexion a base de datos SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaSQL")));
 
-            var app = builder.Build();
+// CORS 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
-            // Usar CORS
-            app.UseCors("AllowAll");
+var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+// Auto-aplicar migraciones en arranque (útil en desarrollo).
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Si no trabajas con migraciones usa EnsureCreated(), sino usa Migrate()
+    // db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+// Servir index.html y archivos estáticos desde wwwroot (o la raíz si los tienes ahí)
+app.UseDefaultFiles(); // sirve index.html por defecto
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseCors("AllowAll");
+
+app.MapControllers();
+
+app.Run();

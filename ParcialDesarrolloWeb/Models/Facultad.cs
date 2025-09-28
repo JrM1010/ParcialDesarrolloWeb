@@ -9,9 +9,10 @@ namespace ParcialDesarrolloWeb.Models
         public int IdFacultad { get; set; }
 
         [Required, MaxLength(150)]
-        public string NombreFacultad { get; set; }
+        public string? NombreFacultad { get; set; }
 
-        public ICollection<Estudiante> Estudiantes { get; set; }
+        public ICollection<Estudiante> Estudiantes { get; set; } = new List<Estudiante>();
+
 
 
     }

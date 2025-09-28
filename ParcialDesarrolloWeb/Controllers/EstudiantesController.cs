@@ -42,7 +42,10 @@ namespace ParcialDesarrolloWeb.Controllers
         {
             _context.Estudiantes.Add(estudiante);
             await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetById), new { id = estudiante.IdEstudiante }, estudiante);
+
+
         }
 
         // PUT: api/Estudiantes/5

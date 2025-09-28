@@ -11,9 +11,10 @@ namespace ParcialDesarrolloWeb.Models
         public int IdCarrera { get; set; }
 
         [Required, MaxLength(150)]
-        public string NombreCarrera { get; set; }
+        public string? NombreCarrera { get; set; }
 
-        public ICollection<Estudiante> Estudiantes { get; set; }
+        public ICollection<Estudiante> Estudiantes { get; set; } = new List<Estudiante>();
+
 
     }
 }
