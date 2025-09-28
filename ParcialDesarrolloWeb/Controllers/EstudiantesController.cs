@@ -4,7 +4,7 @@ using ParcialDesarrolloWeb.Data;
 using ParcialDesarrolloWeb.Models;
 
 
-namespace ParcialDesarrolloWeb.Api.Controllers
+namespace ParcialDesarrolloWeb.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

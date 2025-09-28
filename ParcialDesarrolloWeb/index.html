@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Estudiantes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestión de Estudiantes</h1>
+        </header>
+
+        <!-- Formulario para agregar/editar estudiantes -->
+        <section class="form-section">
+            <h2 id="form-title">Agregar Nuevo Estudiante</h2>
+            <form id="estudiante-form">
+                <div class="form-group">
+                    <label for="carnet">Carnet *</label>
+                    <input type="text" id="carnet" name="carnet" maxlength="50">
+                    <span class="validation-message" id="carnet-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombres">Nombres *</label>
+                    <input type="text" id="nombres" name="nombres" maxlength="150">
+                    <span class="validation-message" id="nombres-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellidos">Apellidos *</label>
+                    <input type="text" id="apellidos" name="apellidos" maxlength="150">
+                    <span class="validation-message" id="apellidos-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico *</label>
+                    <input type="email" id="correo" name="correo" maxlength="200">
+                    <span class="validation-message" id="correo-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="text" id="telefono" name="telefono" maxlength="50">
+                    <span class="validation-message" id="telefono-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="carrera">Carrera *</label>
+                    <select id="carrera" name="carrera">
+                        <option value="">Seleccione una carrera</option>
+                    </select>
+                    <span class="validation-message" id="carrera-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="facultad">Facultad *</label>
+                    <select id="facultad" name="facultad">
+                        <option value="">Seleccione una facultad</option>
+                    </select>
+                    <span class="validation-message" id="facultad-error"></span>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" id="submit-btn">Guardar Estudiante</button>
+                    <button type="button" id="cancel-btn" style="display: none;">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Controles de búsqueda y ordenamiento -->
+        <section class="controls-section">
+            <div class="search-control">
+                <input type="text" id="search-input" placeholder="Buscar estudiantes...">
+                <button onclick="buscarEstudiantes()">Buscar</button>
+            </div>
+            
+            <div class="sort-control">
+                <label for="sort-select">Ordenar por:</label>
+                <select id="sort-select" onchange="ordenarEstudiantes()">
+                    <option value="nombres-asc">Nombres (A-Z)</option>
+                    <option value="nombres-desc">Nombres (Z-A)</option>
+                    <option value="apellidos-asc">Apellidos (A-Z)</option>
+                    <option value="apellidos-desc">Apellidos (Z-A)</option>
+                    <option value="carnet-asc">Carnet (Ascendente)</option>
+                    <option value="carnet-desc">Carnet (Descendente)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Tabla de estudiantes -->
+        <section class="table-section">
+            <h2>Lista de Estudiantes</h2>
+            <div class="table-container">
+                <table id="estudiantes-table">
+                    <thead>
+                        <tr>
+                            <th>Carnet</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Carrera</th>
+                            <th>Facultad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estudiantes-tbody">
+                        <!-- Los datos se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Mensajes de estado -->
+        <div id="message-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
